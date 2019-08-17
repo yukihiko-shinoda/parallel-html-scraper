@@ -1,0 +1,39 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+aioresponses = "*"
+flake8 = "*"
+mypy = "*"
+pylint = "*"
+pytest = "*"
+pytest-asyncio = "*"
+pytest-cov = "*"
+pytest-mock = "*"
+radon = "*"
+twine = "*"
+
+[packages]
+# To process downloads in parallel
+aiohttp = "*"
+# To analyze htmls
+beautifulsoup4 = "*"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+# dataclasses-json 0.2.7 depends on marshmallow 3.0.0rc6
+allow_prereleases = true
+
+[scripts]
+test = "cd tests && pytest"
+coverage = "cd tests && pytest --verbose --cov=parallelhtmlscraper --cov-report=term-missing"
+flake8 = "flake8 --max-line-length=120 --statistics --show-source --radon-show-closures ."
+cc = "radon cc --show-complexity --min B ."
+mi = "radon mi --show ."
+clear = "rm -rf parallelhtmlscraper.egg-info/* build/* dist/*"
+build = "python setup.py sdist bdist_wheel"
+deploy = "twine upload --repository pypi dist/*"
