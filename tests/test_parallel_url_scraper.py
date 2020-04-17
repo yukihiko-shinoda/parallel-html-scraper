@@ -1,4 +1,5 @@
 import asyncio
+import os
 
 from parallelhtmlscraper.html_text_load_coroutine import HtmlTextLoadCoroutine
 from parallelhtmlscraper.parallel_html_scraper import ParallelHtmlScraper
@@ -39,8 +40,8 @@ class TestParallelHtmlScraper:
             'Google ショッピング',
             'コレクション',
             'Google マップ',
-            '\r\n        Google ドライブ\r\n    ',
-            '\r\n        Gmail - Google のメール\r\n    '
+            f'{os.linesep}        Google ドライブ{os.linesep}    ',
+            f'{os.linesep}        Gmail - Google のメール{os.linesep}    '
         ]
         # noinspection PyUnresolvedReferences
         # pylint: disable=no-member
