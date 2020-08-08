@@ -22,6 +22,7 @@ def main():
         package_data={"parallelhtmlscraper": ["py.typed"]},
         install_requires=["aiohttp", "beautifulsoup4"],
         dependency_links=[],
+        setup_requires=["pytest-runner"],
         url="https://github.com/yukihiko-shinoda/parallel-media-downloader",
         keywords="parallel HTML web scraping scrape aiohttp beautifulsoup beautifulsoup4",
         classifiers=[
