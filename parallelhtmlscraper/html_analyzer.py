@@ -1,11 +1,13 @@
+"""Base classes of HTML analyzer."""
 from abc import ABC
-from typing import TypeVar, Generic
+from typing import Generic, TypeVar
 
-from bs4 import BeautifulSoup
-__all__ = ['HtmlAnalyzer']
+from bs4 import BeautifulSoup  # type: ignore
+
+__all__ = ["HtmlAnalyzer"]
 
 # noinspection PyShadowingBuiltins
-_T = TypeVar('_T')
+_T = TypeVar("_T")
 
 
 class HtmlAnalyzer(Generic[_T], ABC):

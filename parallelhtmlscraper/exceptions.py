@@ -1,5 +1,5 @@
 """This module implements exceptions for this package."""
-__all__ = ['Error', 'HttpTimeoutError']
+__all__ = ["Error", "HttpTimeoutError"]
 
 
 class Error(Exception):
@@ -15,4 +15,4 @@ class HttpTimeoutError(Error):
         self.url = url
 
     def __str__(self) -> str:
-        return f'HttpTimeoutError. URL = {self.url}'
+        return f"HttpTimeoutError. URL = {self.url}"

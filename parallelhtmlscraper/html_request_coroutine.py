@@ -1,3 +1,4 @@
+"""Controlls traffic of parallel processes for HTML request."""
 import asyncio
 from logging import getLogger
 from typing import TypeVar
@@ -9,10 +10,12 @@ from parallelhtmlscraper.html_analyzer import HtmlAnalyzer
 from parallelhtmlscraper.html_text_load_coroutine import HtmlTextLoadCoroutine
 
 # noinspection PyShadowingBuiltins
-_T = TypeVar('_T')
+_T = TypeVar("_T")
 
 
 class HtmlRequestCoroutine:
+    """Controlls traffic of parallel processes for HTML request."""
+
     # ↓ Reason: Based on experience
     SEMAPHORE_MAX_VALUE = 5
     # ↓ Reason: Librahack incident @see https://www.google.com/search?q=Librahack%E4%BA%8B%E4%BB%B6
@@ -30,9 +33,12 @@ class HtmlRequestCoroutine:
         self.logger = getLogger(__name__)
 
     async def execute(
-            self, client_session: ClientSession, url: str, analyzer: HtmlAnalyzer[_T],
-            *,
-            interval: int = MINIMUM_INTERVAL_REQUEST
+        self,
+        client_session: ClientSession,
+        url: str,
+        analyzer: HtmlAnalyzer[_T],
+        *,
+        interval: int = MINIMUM_INTERVAL_REQUEST,
     ) -> _T:
         """function want to limit the number of parallel"""
         async with self.semaphore_for_interval:
@@ -47,8 +53,7 @@ class HtmlRequestCoroutine:
             # ↓ Because response raises error when access to response body too fast
             await asyncio.sleep(self.INTERVAL_ACCESS_TO_RESPONSE_BODY)
             response.raise_for_status()
-            # TODO add Slack notification with URL、 HTTP Response Code when HTTP Response Code is not 200
             # Reason: @see https://github.com/PyCQA/pylint/issues/2395 pylint: disable=logging-fstring-interpolation
-            self.logger.info(f'status = {str(response.status)}')
+            self.logger.info(f"status = {str(response.status)}")
             soup = await HtmlTextLoadCoroutine.execute(response)
         return await analyzer.execute(soup)
