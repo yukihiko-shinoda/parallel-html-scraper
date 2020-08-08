@@ -1,18 +1,23 @@
+"""Test for html_analyzer."""
 import pytest
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup  # type: ignore
 
 from parallelhtmlscraper import HtmlAnalyzer
-from tests.testlibraries.instance_resource import InstanceResource
 
 
 class TestHtmlAnalyzer:
+    """Test for HtmlAnalyzer."""
+
     @staticmethod
     @pytest.mark.asyncio
-    async def test():
+    async def test(resource_path_root):
+        """Tests."""
+
         class SampleHtmlAnalyzer(HtmlAnalyzer):
             async def execute(self, soup):
                 return await super().execute(soup)
+
         with pytest.raises(NotImplementedError):
             await SampleHtmlAnalyzer().execute(
-                BeautifulSoup(InstanceResource.PATH_FILE_HTML_GOOGLE_SEARCH.read_bytes(), 'html.parser')
+                BeautifulSoup((resource_path_root / "google_search.html").read_bytes(), "html.parser")
             )

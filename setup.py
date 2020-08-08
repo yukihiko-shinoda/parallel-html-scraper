@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 """This module implements build settings."""
 
-from setuptools import setup
-from setuptools import find_packages
+from setuptools import find_packages, setup  # type: ignore
 
 
 def main():
@@ -22,6 +21,7 @@ def main():
         package_data={"parallelhtmlscraper": ["py.typed"]},
         install_requires=["aiohttp", "beautifulsoup4"],
         dependency_links=[],
+        setup_requires=["pytest-runner"],
         url="https://github.com/yukihiko-shinoda/parallel-media-downloader",
         keywords="parallel HTML web scraping scrape aiohttp beautifulsoup beautifulsoup4",
         classifiers=[

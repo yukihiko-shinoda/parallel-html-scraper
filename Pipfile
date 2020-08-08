@@ -5,33 +5,28 @@ verify_ssl = true
 
 [dev-packages]
 aioresponses = "*"
+# Hotfix for Pipenv's Bug @see https://github.com/pypa/pipenv/issues/4101
+colorama = "*"
+coverage = "*"
 flake8 = "*"
+invoke = "*"
+isort = "*"
 mypy = "*"
+parallelhtmlscraper = {editable = true, path = "."}
 pipenv-setup = "*"
 pylint = "*"
 pytest = "*"
 pytest-asyncio = "*"
 pytest-cov = "*"
 pytest-mock = "*"
+pytest-resource-path = "*"
 radon = "*"
 twine = "*"
-# Hotfix for Pipenv's Bug @see https://github.com/pypa/pipenv/issues/4101
-colorama = "*"
+wheel = "*"
+xenon = "*"
 
 [packages]
 # To process downloads in parallel
 aiohttp = "*"
 # To analyze htmls
 beautifulsoup4 = "*"
-
-[scripts]
-test = "pytest tests"
-coverage = "pytest --verbose --cov=parallelhtmlscraper --cov-report=term-missing tests"
-coverage_xml = "pytest --cov-report xml --cov=parallelhtmlscraper tests"
-flake8 = "flake8 --max-line-length=120 --statistics --show-source --radon-show-closures ."
-cc = "radon cc --show-complexity --min B ."
-mi = "radon mi --show ."
-setup_sync = "pipenv-setup sync --pipfile"
-check_setup = "pipenv-setup check --strict"
-clear = "rm -rf parallelhtmlscraper.egg-info/* build/* dist/*"
-build = "python setup.py sdist bdist_wheel"
