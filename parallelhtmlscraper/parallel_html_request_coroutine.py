@@ -27,9 +27,10 @@ class ParallelHtmlRequestCoroutine:
         semaphore = asyncio.Semaphore(HtmlRequestCoroutine.SEMAPHORE_MAX_VALUE) if semaphore is None else semaphore
         html_request_coroutine = HtmlRequestCoroutine(semaphore=semaphore)
         async with aiohttp.ClientSession() as session:
-            list_absolute_url = {url if base_url in url else f"{base_url}{url}" for url in list_url}
             tasks = [
-                html_request_coroutine.execute(session, url, analyzer, interval=interval)
-                for url in list_absolute_url
+                html_request_coroutine.execute(
+                    session, url if base_url in url else f"{base_url}{url}", analyzer, interval=interval
+                )
+                for url in list_url
             ]
             return await asyncio.gather(*tasks)  # type: ignore
