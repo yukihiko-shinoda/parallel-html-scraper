@@ -36,18 +36,20 @@ class TestParallelHtmlScraper:
             ).read_bytes(),
         }
         for path, file_content in path_and_content.items():
-            mock_aioresponse.get(f"{host_google}{path}", status=200, body=file_content)
+            mock_aioresponse.get(path if host_google in path else f"{host_google}{path}", status=200, body=file_content)
         mocker.spy(asyncio, "sleep")
-        list_response = ParallelHtmlScraper.execute(f"{host_google}", path_and_content.keys(), AnalyzerForTest())
-        assert list_response == [
-            "Google",
-            "Google 画像検索",
-            "Google ショッピング",
-            "コレクション",
-            "Google マップ",
-            f"{os.linesep}        Google ドライブ{os.linesep}    ",
-            f"{os.linesep}        Gmail - Google のメール{os.linesep}    ",
-        ]
+        list_response = ParallelHtmlScraper.execute(host_google, path_and_content.keys(), AnalyzerForTest())
+        assert sorted(list_response) == sorted(
+            [
+                "Google",
+                "Google 画像検索",
+                "Google ショッピング",
+                "コレクション",
+                "Google マップ",
+                f"{os.linesep}        Google ドライブ{os.linesep}    ",
+                f"{os.linesep}        Gmail - Google のメール{os.linesep}    ",
+            ]
+        )
         # noinspection PyUnresolvedReferences
         # pylint: disable=no-member
         asyncio.sleep.assert_any_call(0.1)

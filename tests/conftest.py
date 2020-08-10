@@ -7,6 +7,8 @@ import aiohttp
 import pytest
 from aioresponses import aioresponses  # type: ignore
 
+collect_ignore = ["setup.py"]
+
 
 @pytest.fixture
 def mock_aioresponse():
