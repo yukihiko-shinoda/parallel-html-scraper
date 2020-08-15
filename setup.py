@@ -10,20 +10,8 @@ def main():
         readme = file.read()
 
     setup(
-        name="parallelhtmlscraper",
-        version="0.0.0",
-        description="This project helps you to web scrape html file.",
-        long_description=readme,
-        long_description_content_type="text/markdown",
         author="Yukihiko Shinoda",
         author_email="yuk.hik.future@gmail.com",
-        packages=find_packages(exclude=("tests*",)),
-        package_data={"parallelhtmlscraper": ["py.typed"]},
-        install_requires=["aiohttp", "beautifulsoup4"],
-        dependency_links=[],
-        setup_requires=["pytest-runner"],
-        url="https://github.com/yukihiko-shinoda/parallel-media-downloader",
-        keywords="parallel HTML web scraping scrape aiohttp beautifulsoup beautifulsoup4",
         classifiers=[
             "Development Status :: 4 - Beta",
             "Intended Audience :: Developers",
@@ -39,6 +27,18 @@ def main():
             "Topic :: Text Processing :: Markup :: HTML",
             "Typing :: Typed",
         ],
+        dependency_links=[],
+        description="This project helps you to web scrape html file.",
+        install_requires=["aiohttp", "beautifulsoup4"],
+        keywords="parallel HTML web scraping scrape aiohttp beautifulsoup beautifulsoup4",
+        long_description=readme,
+        long_description_content_type="text/markdown",
+        name="parallelhtmlscraper",
+        packages=find_packages(exclude=("tests*",)),
+        package_data={"parallelhtmlscraper": ["py.typed"]},
+        setup_requires=["pytest-runner"],
+        url="https://github.com/yukihiko-shinoda/parallel-media-downloader",
+        version="0.0.0",
     )
 
 
