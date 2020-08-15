@@ -30,16 +30,19 @@ def main():
         ],
         dependency_links=[],
         description="This project helps you to web scrape html file.",
+        exclude_package_data={"": ["__pycache__", "*.py[co]", ".pytest_cache"]},
+        include_package_data=True,
         install_requires=["aiohttp", "beautifulsoup4"],
         keywords="parallel HTML web scraping scrape aiohttp beautifulsoup beautifulsoup4",
         long_description=readme,
         long_description_content_type="text/markdown",
         name="parallelhtmlscraper",
-        packages=find_packages(exclude=("tests*",)),
-        package_data={"parallelhtmlscraper": ["py.typed"]},
+        packages=find_packages(include=["parallelhtmlscraper", "parallelhtmlscraper.*", "tests", "tests.*"]),
+        package_data={"parallelhtmlscraper": ["py.typed"], "tests": ["*"]},
         setup_requires=["pytest-runner"],
         url="https://github.com/yukihiko-shinoda/parallel-media-downloader",
         version="0.0.0",
+        zip_safe=False,
     )
 
 
