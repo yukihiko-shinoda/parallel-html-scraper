@@ -51,7 +51,7 @@ print(list_response)
 ```
 
 ```console
-$ pipenv run python test.py
+$ python test.py
 ['\n      Gmail - Email from Google\n    ', 'Google Images', '  Google Maps  ', 'Using Google Drive - New Features, Benefits & Advantages of Google Cloud Storage', 'Google Shopping', 'Google', 'Collections']
 ```
 
