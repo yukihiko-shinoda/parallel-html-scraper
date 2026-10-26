@@ -6,6 +6,6 @@ from parallelhtmlscraper.exceptions import HttpTimeoutError
 from parallelhtmlscraper.html_analyzer import HtmlAnalyzer
 from parallelhtmlscraper.parallel_html_scraper import ParallelHtmlScraper
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = ["Error", "HtmlAnalyzer", "HttpTimeoutError", "ParallelHtmlScraper"]
