@@ -1,3 +1,4 @@
+# Copyright (C) 2019 Yukihiko Shinoda
 """This module implements exceptions for this package."""
 
 __all__ = ["Error", "HttpTimeoutError"]
@@ -11,8 +12,8 @@ class Error(Exception):
 
 
 class HttpTimeoutError(Error):
-    def __init__(self, *args, url: str):
-        super().__init__(*args)
+    def __init__(self, url: str) -> None:
+        super().__init__(url)
         self.url = url
 
     def __str__(self) -> str:

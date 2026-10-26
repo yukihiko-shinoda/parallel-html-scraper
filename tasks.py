@@ -1,3 +1,4 @@
+# Copyright (C) 2020 Yukihiko Shinoda
 """Tasks for maintaining the project.
 
 Execute 'invoke --list' for guidance on using Invoke

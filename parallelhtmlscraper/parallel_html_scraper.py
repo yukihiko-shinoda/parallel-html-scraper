@@ -1,15 +1,21 @@
+# Copyright (C) 2019 Yukihiko Shinoda
 """API of parallel HTML scraping."""
 
+from __future__ import annotations
+
 import asyncio
-from typing import Iterable
-from typing import List
+from typing import TYPE_CHECKING
 from typing import TypeVar
 
-from parallelhtmlscraper.html_analyzer import HtmlAnalyzer
 from parallelhtmlscraper.html_request_coroutine import HtmlRequestCoroutine
 from parallelhtmlscraper.parallel_html_request_coroutine import ParallelHtmlRequestCoroutine
 
-__all__: List[str] = ["ParallelHtmlScraper"]
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
+    from parallelhtmlscraper.html_analyzer import HtmlAnalyzer
+
+__all__ = ["ParallelHtmlScraper"]
 # noinspection PyShadowingBuiltins
 _T = TypeVar("_T")
 
@@ -34,8 +40,8 @@ class ParallelHtmlScraper:
         *,
         limit: int = HtmlRequestCoroutine.SEMAPHORE_MAX_VALUE,
         interval: int = HtmlRequestCoroutine.MINIMUM_INTERVAL_REQUEST,
-    ) -> List[_T]:
-        """Executes parallel HTML scraping."""
+    ) -> list[_T]:
+        """Execute parallel HTML scraping."""
         return asyncio.run(ParallelHtmlScraper._execute(base_url, list_url, analyzer, limit=limit, interval=interval))
 
     @staticmethod
@@ -46,7 +52,7 @@ class ParallelHtmlScraper:
         *,
         limit: int,
         interval: int,
-    ) -> List[_T]:
+    ) -> list[_T]:
         # Reason: Before Python 3.10, asyncio.Semaphore binds the event loop when instantiated,
         # so it has to be instantiated in the event loop which asyncio.run() creates.
         return await ParallelHtmlRequestCoroutine.execute(

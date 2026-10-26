@@ -1,9 +1,15 @@
+# Copyright (C) 2019 Yukihiko Shinoda
 """Parser for response body to BeautifulSoup."""
 
-from logging import getLogger
+from __future__ import annotations
 
-from aiohttp import ClientResponse
-from bs4 import BeautifulSoup  # type: ignore
+from logging import getLogger
+from typing import TYPE_CHECKING
+
+from bs4 import BeautifulSoup
+
+if TYPE_CHECKING:
+    from aiohttp import ClientResponse
 
 
 class HtmlTextLoadCoroutine:
@@ -19,12 +25,9 @@ class HtmlTextLoadCoroutine:
     async def _execute(cls, response: ClientResponse) -> str:
         try:
             return await response.text()
-        except UnicodeDecodeError as error:
+        except UnicodeDecodeError:
             # if response header includes no encoding information,
             # aiohttp try to detect encoding by chardet.
             # However chardet doesn't support Emoji.
-            # Reason: @see https://github.com/PyCQA/pylint/issues/2395 pylint: disable=logging-fstring-interpolation
-            cls.LOGGER.error(f"UnicodeDecodeError. URL = {response.url}, encoding = {response.get_encoding()}")
-            # Reason: @see https://github.com/PyCQA/pylint/issues/2395 pylint: disable=logging-fstring-interpolation
-            cls.LOGGER.exception(f"{error}")
+            cls.LOGGER.exception("UnicodeDecodeError. URL = %s, encoding = %s", response.url, response.get_encoding())
         return await response.text("utf-8")

@@ -1,10 +1,17 @@
+# Copyright (C) 2019 Yukihiko Shinoda
 """Test for html_text_load_coroutine."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import pytest
-from aiohttp import ClientResponse
 
 from parallelhtmlscraper.html_text_load_coroutine import HtmlTextLoadCoroutine
 from tests.conftest import AioresponseParameterHtmlByte
+
+if TYPE_CHECKING:
+    from aiohttp import ClientResponse
 
 
 class TestHtmlTextRoadCoroutine:
@@ -17,11 +24,11 @@ class TestHtmlTextRoadCoroutine:
         [AioresponseParameterHtmlByte("emoji.html", {"charset": "", "Content-Type": "text/html"})],
         indirect=["client_response_html_byte"],
     )
-    async def test(client_response_html_byte: ClientResponse):
+    async def test(client_response_html_byte: ClientResponse) -> None:
         """Tests."""
         soup = await HtmlTextLoadCoroutine.execute(client_response_html_byte)
-        body = soup.find("body")
-        assert body.text.strip() == "あ💫"
+        assert soup.body is not None
+        assert soup.body.text.strip() == "あ💫"
 
     @staticmethod
     @pytest.mark.asyncio
@@ -33,4 +40,5 @@ class TestHtmlTextRoadCoroutine:
     async def test_execute_fallback_to_utf_8(client_response_from_local_server: ClientResponse) -> None:
         """Body which can't be decoded by the charset in the header should be decoded as UTF-8."""
         soup = await HtmlTextLoadCoroutine.execute(client_response_from_local_server)
-        assert soup.find("body").text.strip() == "あ💫"
+        assert soup.body is not None
+        assert soup.body.text.strip() == "あ💫"
