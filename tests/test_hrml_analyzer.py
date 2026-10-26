@@ -1,4 +1,5 @@
 """Test for html_analyzer."""
+
 import pytest
 from bs4 import BeautifulSoup  # type: ignore
 
@@ -19,5 +20,5 @@ class TestHtmlAnalyzer:
 
         with pytest.raises(NotImplementedError):
             await SampleHtmlAnalyzer().execute(
-                BeautifulSoup((resource_path_root / "google_search.html").read_bytes(), "html.parser")
+                BeautifulSoup((resource_path_root / "google_search.html").read_bytes(), "html.parser"),
             )

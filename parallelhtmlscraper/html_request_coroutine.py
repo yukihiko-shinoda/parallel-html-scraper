@@ -1,4 +1,5 @@
 """Controlls traffic of parallel processes for HTML request."""
+
 import asyncio
 from logging import getLogger
 from typing import TypeVar
@@ -40,7 +41,7 @@ class HtmlRequestCoroutine:
         *,
         interval: int = MINIMUM_INTERVAL_REQUEST,
     ) -> _T:
-        """function want to limit the number of parallel"""
+        """Function want to limit the number of parallel."""
         async with self.semaphore_for_interval:
             await asyncio.sleep(interval)
             while self.semaphore.locked():
@@ -54,6 +55,6 @@ class HtmlRequestCoroutine:
             await asyncio.sleep(self.INTERVAL_ACCESS_TO_RESPONSE_BODY)
             response.raise_for_status()
             # Reason: @see https://github.com/PyCQA/pylint/issues/2395 pylint: disable=logging-fstring-interpolation
-            self.logger.info(f"status = {str(response.status)}")
+            self.logger.info(f"status = {response.status!s}")
             soup = await HtmlTextLoadCoroutine.execute(response)
         return await analyzer.execute(soup)

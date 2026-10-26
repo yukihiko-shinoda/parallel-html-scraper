@@ -1,4 +1,5 @@
 """Parser for response body to BeautifulSoup."""
+
 from logging import getLogger
 
 from aiohttp import ClientResponse

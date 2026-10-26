@@ -1,6 +1,9 @@
 """Executes HTML requests as parallel."""
+
 import asyncio
-from typing import Iterable, List, TypeVar
+from typing import Iterable
+from typing import List
+from typing import TypeVar
 
 import aiohttp
 
@@ -29,7 +32,10 @@ class ParallelHtmlRequestCoroutine:
         async with aiohttp.ClientSession() as session:
             tasks = [
                 html_request_coroutine.execute(
-                    session, url if base_url in url else f"{base_url}{url}", analyzer, interval=interval
+                    session,
+                    url if base_url in url else f"{base_url}{url}",
+                    analyzer,
+                    interval=interval,
                 )
                 for url in list_url
             ]

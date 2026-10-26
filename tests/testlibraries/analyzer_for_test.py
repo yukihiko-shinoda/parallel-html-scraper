@@ -1,4 +1,5 @@
 """Analizer for test."""
+
 from bs4 import BeautifulSoup  # type: ignore
 
 from parallelhtmlscraper.html_analyzer import HtmlAnalyzer

@@ -1,10 +1,13 @@
 """Configuration for pytest."""
-import asyncio
+
 from dataclasses import dataclass
-from typing import Dict, Optional, Union
+from typing import Dict
+from typing import Optional
+from typing import Union
 
 import aiohttp
 import pytest
+import pytest_asyncio
 from aioresponses import aioresponses  # type: ignore
 
 collect_ignore = ["setup.py"]
@@ -34,30 +37,31 @@ class AioresponseParameter:
 
 
 # pylint: disable=redefined-outer-name
-@pytest.fixture
-def client_response_html_byte(resource_path_root, request, mock_aioresponse):
+@pytest_asyncio.fixture
+async def client_response_html_byte(resource_path_root, request, mock_aioresponse):
     aioresponse_parameter = AioresponseParameter(
-        (resource_path_root / request.param.body).read_bytes(), request.param.headers
+        (resource_path_root / request.param.body).read_bytes(),
+        request.param.headers,
     )
-    yield from generate_client_response(mock_aioresponse, aioresponse_parameter)
+    yield await generate_client_response(mock_aioresponse, aioresponse_parameter)
 
 
 # pylint: disable=redefined-outer-name
-@pytest.fixture
-def client_response(mock_aioresponse, request):
-    yield from generate_client_response(mock_aioresponse, request.param)
+@pytest_asyncio.fixture
+async def client_response(mock_aioresponse, request):
+    yield await generate_client_response(mock_aioresponse, request.param)
 
 
 # pylint: disable=redefined-outer-name
-def generate_client_response(mock_aioresponse, aioresponse_parameter: AioresponseParameter):
+async def generate_client_response(mock_aioresponse, aioresponse_parameter: AioresponseParameter):
     """Generates client responce."""
     url_temporary = "https://tsohlacol/"
     mock_aioresponse.get(
-        url_temporary, status=200, body=aioresponse_parameter.body, headers=aioresponse_parameter.headers
+        url_temporary,
+        status=200,
+        body=aioresponse_parameter.body,
+        headers=aioresponse_parameter.headers,
     )
 
-    async def coroutine():
-        async with aiohttp.ClientSession() as session:
-            return await session.get(url_temporary, timeout=3)
-
-    yield asyncio.get_event_loop().run_until_complete(coroutine())
+    async with aiohttp.ClientSession() as session:
+        return await session.get(url_temporary, timeout=3)

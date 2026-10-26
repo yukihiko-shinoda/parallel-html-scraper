@@ -1,4 +1,5 @@
 """Test for html_text_load_coroutine."""
+
 import pytest
 from aiohttp import ClientResponse
 

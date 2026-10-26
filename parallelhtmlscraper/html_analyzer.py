@@ -1,6 +1,8 @@
 """Base classes of HTML analyzer."""
+
 from abc import ABC
-from typing import Generic, TypeVar
+from typing import Generic
+from typing import TypeVar
 
 from bs4 import BeautifulSoup  # type: ignore
 
@@ -12,4 +14,4 @@ _T = TypeVar("_T")
 
 class HtmlAnalyzer(Generic[_T], ABC):
     async def execute(self, soup: BeautifulSoup) -> _T:
-        raise NotImplementedError()
+        raise NotImplementedError

@@ -1,4 +1,5 @@
 """Test for test_html_request_coroutine."""
+
 import asyncio
 
 import aiohttp
@@ -16,6 +17,7 @@ class TestHtmlRequestCoroutine:
     @pytest.mark.asyncio
     async def test(monkeypatch, mock_aioresponse, resource_path_root):
         """Tests."""
+
         # noinspection PyUnusedLocal
         # pylint: disable=unused-argument
         async def mock_sleep(time):

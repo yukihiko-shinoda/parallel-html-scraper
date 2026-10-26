@@ -1,4 +1,5 @@
 """Helps to scrape html file."""
+
 from typing import List
 
 from parallelhtmlscraper.exceptions import *  # noqa

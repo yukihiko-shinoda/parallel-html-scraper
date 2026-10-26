@@ -1,6 +1,9 @@
 """API of parallel HTML scraping."""
+
 import asyncio
-from typing import Iterable, List, TypeVar
+from typing import Iterable
+from typing import List
+from typing import TypeVar
 
 from parallelhtmlscraper.html_analyzer import HtmlAnalyzer
 from parallelhtmlscraper.html_request_coroutine import HtmlRequestCoroutine
@@ -12,8 +15,8 @@ _T = TypeVar("_T")
 
 
 class ParallelHtmlScraper:
-    """
-    API of parallel HTML scraping.
+    """API of parallel HTML scraping.
+
     Following steps hasn't implemented:
     - don't follow link when a tag has rel="nofollow"
     - Follow attributes of robots meta tag
@@ -30,11 +33,26 @@ class ParallelHtmlScraper:
         analyzer: HtmlAnalyzer[_T],
         *,
         limit: int = HtmlRequestCoroutine.SEMAPHORE_MAX_VALUE,
-        interval: int = HtmlRequestCoroutine.MINIMUM_INTERVAL_REQUEST
+        interval: int = HtmlRequestCoroutine.MINIMUM_INTERVAL_REQUEST,
     ) -> List[_T]:
         """Executes parallel HTML scraping."""
-        return asyncio.get_event_loop().run_until_complete(
-            ParallelHtmlRequestCoroutine.execute(
-                base_url, list_url, analyzer, semaphore=asyncio.Semaphore(limit), interval=interval
-            )
+        return asyncio.run(ParallelHtmlScraper._execute(base_url, list_url, analyzer, limit=limit, interval=interval))
+
+    @staticmethod
+    async def _execute(
+        base_url: str,
+        list_url: Iterable[str],
+        analyzer: HtmlAnalyzer[_T],
+        *,
+        limit: int,
+        interval: int,
+    ) -> List[_T]:
+        # Reason: Before Python 3.10, asyncio.Semaphore binds the event loop when instantiated,
+        # so it has to be instantiated in the event loop which asyncio.run() creates.
+        return await ParallelHtmlRequestCoroutine.execute(
+            base_url,
+            list_url,
+            analyzer,
+            semaphore=asyncio.Semaphore(limit),
+            interval=interval,
         )
